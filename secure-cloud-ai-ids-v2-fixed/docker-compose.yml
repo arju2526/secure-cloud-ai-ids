@@ -1,0 +1,31 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: ids_backend_service
+    ports:
+      - "8000:8000"
+    environment:
+      - SECRET_KEY=production-super-secret-key-ids-soc
+      - ALGORITHM=HS256
+      - ACCESS_TOKEN_EXPIRE_MINUTES=120
+      - DATABASE_URL=sqlite:////app/data/sql_app.db
+    volumes:
+      - sqlite_data:/app/data
+    restart: always
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: ids_frontend_service
+    ports:
+      - "80:80"
+      - "5173:80"
+    depends_on:
+      - backend
+    restart: always
+
+volumes:
+  sqlite_data:
