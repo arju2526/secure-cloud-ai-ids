@@ -1,0 +1,17 @@
+sequenceDiagram
+  participant C as Client / Simulator
+  participant A as FastAPI /detection/analyze
+  participant J as JWT guard
+  participant E as Hybrid engine
+  participant D as SQLite
+  C->>A: POST flow (ips, ports, bytes, packets) + Bearer token
+  A->>J: validate token, load user
+  J-->>A: user (401 if invalid)
+  A->>D: INSERT network_log
+  A->>E: analyze_log(log)
+  E->>E: evaluate 4 rules
+  E->>E: features, scaler, IsolationForest score above threshold?
+  E-->>A: de-duplicated alert list
+  A->>D: INSERT security_alerts, COMMIT
+  A-->>C: threat_detected + triggered_alerts
+  C->>A: GET /detection/alerts (dashboard polls every 2 s)

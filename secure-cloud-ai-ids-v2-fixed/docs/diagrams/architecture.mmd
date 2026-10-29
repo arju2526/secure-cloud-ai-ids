@@ -1,0 +1,18 @@
+flowchart LR
+  subgraph Client["React SOC Dashboard (Vite + Tailwind, nginx)"]
+    L[Login] --> D[Alert table, 2s polling, CSV/JSON export]
+  end
+  SIM[attack_simulator.py<br/>benign / DDoS / scan / SMB flows] -->|POST /detection/analyze + JWT| API
+  Client -->|/api/v1 via nginx proxy| API
+  subgraph Backend["FastAPI backend"]
+    API[API layer<br/>auth.py, detection.py] --> SEC[JWT + bcrypt + RBAC<br/>ADMIN / ANALYST]
+    API --> ENG[detection_engine.analyze_log]
+    ENG --> RULES[rule_engine<br/>4 rules]
+    ENG --> ML[ml_engine<br/>Isolation Forest v2]
+    ML --> FEAT[features.py<br/>7 log-scaled features]
+    RULES --> MERGE[Merge + de-duplicate alerts]
+    ML --> MERGE
+    MERGE --> DB[(SQLite via SQLAlchemy<br/>users, network_logs, security_alerts)]
+    API --> DB
+  end
+  TRAIN[ml/train.py + ml/dataset.py<br/>benign-only training, threshold calibration] -.->|joblib artifacts + model_meta.json| ML

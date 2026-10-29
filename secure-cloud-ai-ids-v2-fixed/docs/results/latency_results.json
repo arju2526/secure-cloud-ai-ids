@@ -1,0 +1,27 @@
+{
+  "environment": {
+    "python": "3.13.18",
+    "platform": "Linux-6.18.44-fc-v185-x86_64-with-glibc2.39",
+    "cpus": 2,
+    "note": "in-process FastAPI TestClient + SQLite, single thread, no network"
+  },
+  "detection_engine_only": {
+    "n": 1000,
+    "mean_ms": 15.466738035999924,
+    "p50_ms": 15.903815999990911,
+    "p95_ms": 20.42579799996247,
+    "p99_ms": 22.53836800002773,
+    "max_ms": 37.33885299999429
+  },
+  "api_analyze_endpoint": {
+    "n": 400,
+    "mean_ms": 27.278568562498293,
+    "p50_ms": 27.63357100002395,
+    "p95_ms": 34.460284000033425,
+    "p99_ms": 40.005876000009266,
+    "throughput_req_per_s": 36.64828747384246,
+    "errors": 0,
+    "error_rate": 0.0
+  },
+  "peak_rss_MB": 206.41796875
+}

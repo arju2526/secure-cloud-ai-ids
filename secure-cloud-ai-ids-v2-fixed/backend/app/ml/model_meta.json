@@ -1,0 +1,17 @@
+{
+  "version": "v2",
+  "features": [
+    "log_bytes_sent",
+    "log_bytes_received",
+    "log_packet_count",
+    "log_bytes_per_packet",
+    "log_send_recv_ratio",
+    "is_web_dns_port",
+    "is_privileged_port"
+  ],
+  "n_train_benign": 5000,
+  "n_val_benign": 2000,
+  "threshold_percentile": 95.0,
+  "threshold": 0.6264873267241102,
+  "n_estimators": 200
+}
